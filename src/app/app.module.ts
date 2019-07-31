@@ -38,6 +38,7 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { PersonsComponent } from './persons/persons.component';
+import { CreateOrEditPersonModalComponent } from './persons/create-or-edit-person-modal/create-or-edit-person-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { PersonsComponent } from './persons/persons.component';
     EditUserDialogComponent,
     ChangePasswordComponent,
     ResetPasswordDialogComponent,
-    PersonsComponent
+    PersonsComponent,
+    CreateOrEditPersonModalComponent
   ],
   imports: [
     CommonModule,

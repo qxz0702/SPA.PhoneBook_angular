@@ -1,11 +1,13 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { PagedListingComponentBase } from '@shared/paged-listing-component-base';
 import { PersonListDto, PersonServiceProxy } from '@shared/service-proxies/service-proxies';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-persons',
   templateUrl: './persons.component.html',
-  styleUrls: ['./persons.component.css']
+  styleUrls: ['./persons.component.css'],
+  animations: [appModuleAnimation()],
 })
 export class PersonsComponent extends PagedListingComponentBase<PersonListDto> {
   filter='';
