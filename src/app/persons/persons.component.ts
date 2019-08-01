@@ -1,7 +1,11 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { PagedListingComponentBase } from '@shared/paged-listing-component-base';
 import { PersonListDto, PersonServiceProxy } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { CreateOrEditPersonModalComponent } from './create-or-edit-person-modal/create-or-edit-person-modal.component';
+import { MatDialog } from '@angular/material';
+import { CreatePersonDialogComponent } from './create-person-dialog/create-person-dialog.component';
+import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 
 @Component({
   selector: 'app-persons',
@@ -10,11 +14,13 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
   animations: [appModuleAnimation()],
 })
 export class PersonsComponent extends PagedListingComponentBase<PersonListDto> {
+  @ViewChild('createOrEditPersonModal',{static:true}) CreateOrEditPersonModal: CreateOrEditPersonModalComponent;
   filter='';
   people:PersonListDto[]=[];
   constructor(
     injector:Injector,
-    private _personService:PersonServiceProxy
+    private _personService:PersonServiceProxy,
+    private _dialog: MatDialog
   ) { 
     super(injector);
   }
@@ -27,4 +33,30 @@ export class PersonsComponent extends PagedListingComponentBase<PersonListDto> {
   protected delete(entity: PersonListDto): void {
     throw new Error("Method not implemented.");
   }
+
+  /**
+   * 添加联系人
+   *
+   * @memberof PersonsComponent
+   */
+  createPerson(): void {
+    this.showCreateOrEditPersonDialog();
+  }
+
+  showCreateOrEditPersonDialog(id?: number): void {
+    let createOrEditPersonDialog;
+    if (id === undefined || id <= 0) {
+        createOrEditPersonDialog = this._dialog.open(CreatePersonDialogComponent);
+    } else {
+        createOrEditPersonDialog = this._dialog.open(EditPersonDialogComponent, {
+            data: id
+        });
+    }
+
+    createOrEditPersonDialog.afterClosed().subscribe(result => {
+        if (result) {
+            this.refresh();
+        }
+    });
+}
 }
